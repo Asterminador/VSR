@@ -1,13 +1,69 @@
-import React from 'react';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Dimensions, Text, View, TextInput, Image, FlatList, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-const Tab = createBottomTabNavigator();
+import Carousel from 'react-native-snap-carousel';
+import PropTypes from 'prop-types';
+ const Tab = createBottomTabNavigator();
+ const SLIDER_WIDTH = Dimensions.get('window').width * 0.8
+ const ITEM_WIDTH = SLIDER_WIDTH * 0.8
+ /*carouselItens.PropTypes = {
+  item: {
+    imgUrl: string
+  },
+  index: number
+ }*/
+ const carouselItens = [
+  {
+    imgUrl:'./assets/product1.png'
+  },
+  {
+    imgUrl:'./assets/product2.png'
+  }
+ ]
+function HomeScreen(){
+  return(
+    <View style={styles.container}>
+      <Image style={styles.logo} resizeMode="contain" source={require('./assets/logop.png')} />
+      <TextInput
+        style={styles.searchBox}
+        placeholder="Pesquisar produtos..."
+        placeholderTextColor="#888"
+      />
+        <Text style={styles.titulo}>
+Anúncios
+        </Text>
+        <Carousel
+        data={carouselItens}
+        renderItem={carouselCardItem}
+        sliderWidth={SLIDER_WIDTH}
+        itemWidth={ITEM_WIDTH}
+        useScrollView={true}
+        />
+    </View>
+  )
+} 
+function carouselCardItem({item, index}){
+  return(
+    <View style={styles.cardCarousel} key={index}>
+      <Image style={styles.image} source={{uri:item.imgUrl}}/>
+    </View>
+  )
+}
+function PerfilScreen(){
+  return(
+    <View>
+      <Text>
+        Pagina de configuração
+      </Text>
+    </View>
+  )
+}
 function MyTabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Perfil" component={PerfilScreen} />
     </Tab.Navigator>
   );
 }
@@ -37,6 +93,7 @@ function MyTabs() {
     </View>
   );
 }*/
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -46,17 +103,23 @@ export default function App() {
 
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffebd0',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#e3f4de',
+     
+  },
+  cardCarousel: {
+    width: ITEM_WIDTH,
+  },
+  image: {
+    height: 250,
+    borderRadius:8, 
   },
   logo: {
-    height: 100,
-    width: '80%',
-    marginBottom: 30,
+    height: 40,
+    width: '50%',
   },
   form: {
     width: '80%',
@@ -65,6 +128,12 @@ const styles = StyleSheet.create({
     color: '#00bf63',
     fontSize: 16,
     marginBottom: 10,
+  },
+  titulo: {
+    color: '#009045',
+    fontSize: 20,
+    marginBottom: 10,
+    marginLeft: 10
   },
   input: {
     borderWidth: 1,
@@ -85,10 +154,37 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
+  searchBox: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
+    width: '80%',
+    marginBottom: 20,
+    fontSize: 16,
+    backgroundColor: '#fff',
+  },
+  productsList: {
+    alignItems: 'center',
+  },
+  productContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  productImage: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+  },
+  productName: {
+    color: '#00bf63',
+    fontSize: 16,
+  },
   registerText: {
     marginTop: 20,
     color: '#00bf63',
     fontSize: 16,
     textAlign: 'center',
   },
+  
 });
